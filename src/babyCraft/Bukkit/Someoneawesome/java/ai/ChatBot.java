@@ -19,7 +19,7 @@ public class ChatBot {
 	private static final String OWNLOVER = "LOVER";
 	private String OwnLover;
 	
-	//gemder of own child and opposite ex. boy, girl
+	//gender of own child and opposite ex. boy, girl
 	private static final String OWNGENDER = "OWN";
 	private static final String OWNOPPOSITEGENDER = "OPPOWN";
 	private String Own;
@@ -31,70 +31,86 @@ public class ChatBot {
 	private String OpOwnSub;
 	private String OpOwnObj;
 
+	//color of name in chat
 	private String genderCode;
+	//child instance is connected to
 	private Child child;
 	
+	//constructor
 	public ChatBot(Gender gender, Child child) {
+		//sets child instance
 		this.child = child;
-		if(gender.equals(Gender.male))
-			genderCode = "&b";
-		else
-			genderCode = "&d";
 		
+		//sets color for its gender, sets nouns
 		if(child.getGender().equals(Gender.male)) {
+			//if child is male
 			Own = "boy";
 			OpOwn = "girl";
 			OpOwnSub = "she";
 			OpOwnObj = "her";
 			OwnLover = "Girlfriend";
+			genderCode = "&b";
 		} else {
+			//if child is female
 			Own = "girl";
 			OpOwn = "boy";
 			OpOwnSub = "he";
 			OpOwnObj = "him";
 			OwnLover = "Boyfriend";
+			genderCode = "&d";
 		}
 	}
 
+	//regular interaction message
 	public void interact(Gender gender) {
+		//set message to null (if message fails to be found)
 		String message = ReactionMessages.NULL.nextMsg();
+		//set gender of parent talking to
 		String parent = "[Gender not found]";
+		//set gender of the opposite parent
 		String parentOP = "[Gender Not Found]";
+		//is the message given positive
 		boolean isPositive = new Random().nextBoolean();
+		//is the message an easter egg
 		boolean easter = false;
 		
-		int random = new Random().nextInt(25);
+		//chooses if easteregg is taken
+		int random = new Random().nextInt(22);
 		
-		if(random == 24)
+		//checks for easteregg or positive and negative message
+		if(random == 21)
 			easter = true;
 		else if (random >= 10)
 			isPositive = true;
 		else
 			isPositive = false;
 		
-		
+		//checks for the parent talking to
 		if(gender.equals(Gender.male)) {
+			//if father talking
 			parent = "Daddy";
 			parentOP = "Mommy";
 		}			
 		else if(gender.equals(Gender.female)) {
+			//if mother talking
 			parent = "Mommy";
 			parentOP = "Daddy";
 		}			
 		else {
+			//if gender cannot be found
 			parent = "person";
 			parentOP = "person";
 		}
 		
-		if(isPositive) 
+		//generates message
+		if(easter) {
+			message = ReactionMessages.EASTEREGG.nextMsg();
+		} else if(isPositive) 
 			message = ReactionMessages.Chat_pos.nextMsg();
 		else
 			message = ReactionMessages.Chat_neg.nextMsg();
 		
-		if(easter) {
-			message = ReactionMessages.EASTEREGG.nextMsg();
-		}
-		
+		//replaces placeholders with appropiate values
 		message = replacePattern(OWNOPPOSITEGENDERPROSUB, OpOwnSub, message);
 		message = replacePattern(OWNOPPOSITEGENDERPROOBJ, OpOwnObj, message);
 		message = replacePattern(OWNOPPOSITEGENDER, OpOwn, message);
@@ -103,27 +119,34 @@ public class ChatBot {
 		message = replacePattern(PARENTGENDER, parent, message);
 		message = replacePattern(OWNLOVER, OwnLover, message);
 		
+		//has child speak the message
 		say(message);
-		
 	}
 	
+	//child reacts to action on them
 	public void reactTo(Action action, Gender Actioner_Gender) {
 		
-		String message = "error 404: message not Found";
+		//sets message to null if not found
+		String message = ReactionMessages.NULL.nextMsg();
+		//checks for parents gender if not found
 		String parent = "[Gender not found]";
 		String parentOP = "[Gender not found]";
+		//is the message positive
 		boolean isPositive = false;
 		
+		//determines if message is positive
 		int random = new Random().nextInt(100);
 
+		//checks if message is positive
 		if (random >= 25)
 			isPositive = true;
 		else
 			isPositive = false;
 		
-		
+		//the currently action to be taken
 		ReactionMessages msg = ReactionMessages.NULL;
 		
+		//sets names for gender of actioner
 		if(Actioner_Gender == null)
 			parent = "person";
 		
@@ -168,6 +191,7 @@ public class ChatBot {
 				msg = ReactionMessages.change_neg;
 		}
 		
+		//replaces and sends appripiate message
 		message = msg.nextMsg();
 		message = replacePattern(OWNOPPOSITEGENDERPROSUB, OpOwnSub, message);
 		message = replacePattern(OWNOPPOSITEGENDERPROOBJ, OpOwnObj, message);
@@ -177,14 +201,17 @@ public class ChatBot {
 		message = replacePattern(PARENTGENDER, parent, message);
 		message = replacePattern(OWNLOVER, OwnLover, message);
 		
+		//has child say the message
 		say(message);
 	}
 	
 	// attacked reaction
 	public void attackedReact(boolean isparent, Gender gender) {
 		
+		//if the gender cannot be found
 		String adressed = "[Error 404: Adress title cannot be found]";
 		
+		//sets adressed title
 		if(isparent) {
 			if(gender.equals(Gender.male))
 				adressed = "Daddy";
@@ -197,15 +224,20 @@ public class ChatBot {
 				adressed = "Ms";
 		}
 		
+		//creates message
 		String message = "Oww, why did you do that " + adressed + "!";
 		
+		//has child say the message
 		say(message);
 	}
 	
+	//message when child starts following parent
 	public void follow(Gender gender) {
+		//sets null messages
 		String message = "error 404: message not Found";
 		String parent = "[Gender not found]";
 		
+		//sets gender if found
 		if(gender == null)
 			parent = "person";
 		
@@ -214,14 +246,18 @@ public class ChatBot {
 		else 
 			parent = "Mommy";
 		
+		//creates message and says
 		message = "Ok i will follow you " + parent;
 		say(message);
 	}
 	
+	//message and child is told to stay
 	public void stay(Gender gender) {
+		//sets null messages
 		String message = "error 404: message not Found";
 		String parent = "[Gender not found]";
 		
+		//checks for gender of parent if found
 		if(gender == null)
 			parent = "person";
 		
@@ -230,14 +266,18 @@ public class ChatBot {
 		else 
 			parent = "Mommy";
 		
+		//creates and send message
 		message = "Ok " + parent + " I will stay here";
 		say(message);
 	}
 	
+	//message when child told it can roam
 	public void roam(Gender gender) {
+		//set null messages
 		String message = "error 404: message not Found";
 		String parent = "[Gender not found]";
 		
+		//set gender to parents
 		if(gender == null)
 			parent = "person";
 		
@@ -246,12 +286,13 @@ public class ChatBot {
 		else 
 			parent = "Mommy";
 		
+		//creates and says message
 		message = "yay lets go play PGENDER!";
 		message.replaceAll(PARENTGENDER, parent);
 		say(message);
 	}
 	
-	// say cmd
+	// say cmd with colors
 	private void say(String msg) {
 		child.sayline(ChatColor.translateAlternateColorCodes('&', genderCode + "<" + child.getName() + "> &6" + msg), RADIUS);
 	}

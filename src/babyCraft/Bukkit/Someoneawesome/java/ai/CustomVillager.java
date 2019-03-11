@@ -4,12 +4,14 @@ import java.lang.reflect.*;
 import java.util.*;
 
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_13_R1.*;
+import org.bukkit.craftbukkit.v1_13_R2.*;
 import org.bukkit.entity.*;
 
-import net.minecraft.server.v1_13_R1.*;
-import net.minecraft.server.v1_13_R1.Entity;
+import net.minecraft.server.v1_13_R2.*;
+import net.minecraft.server.v1_13_R2.Entity;
 
+//failed experiment dont use
+@Deprecated
 public class CustomVillager extends EntityVillager {
 
 	public CustomVillager(org.bukkit.World world) {

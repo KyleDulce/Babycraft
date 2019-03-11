@@ -361,6 +361,7 @@ public class Child {
 		follow_id = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, follow, 0 * 20, 2 * 20);
 	}
 	
+	//TODO: fix pathfollowing
 	public void followPlayer(Player player, LivingEntity entity, double d, boolean thing) {
 		stopFollow();
 		

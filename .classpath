@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/james/Documents/programming/libraries/buildTools/1.13/build 75/spigot-1.13.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
